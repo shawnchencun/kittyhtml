@@ -58,6 +58,7 @@ Blitz implements a serious subset of CSS: flexbox, grid, `border-radius`, `box-s
 
 - **`<thead>` content paints empty.** Use plain `<tr>` rows styled with `font-weight: 700` instead.
 - **Fixed widths larger than `--width` overflow the canvas.** Stick to `width: 100%` / `max-width` for elements that should fit.
+- **Percentage table widths resolve against the grandparent**, so a `width: 100%` table ignores its parent's padding and overflows. The CLI works around this by wrapping every `<table>` in its own `<div>` before rendering.
 
 The full status matrix lives in [the Blitz repo](https://github.com/DioxusLabs/blitz).
 

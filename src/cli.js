@@ -165,6 +165,15 @@ function addCjkFallback(html) {
   return base + html;
 }
 
+// Blitz resolves a table's percentage width against its grandparent instead
+// of its parent, so `width: 100%` ignores the parent's padding and overflows
+// it. Giving every table its own wrapper div makes it resolve correctly.
+function wrapTables(html) {
+  return html
+    .replace(/<table\b/gi, '<div><table')
+    .replace(/<\/table\s*>/gi, '</table></div>');
+}
+
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
 
@@ -180,7 +189,7 @@ async function main() {
     process.exit(1);
   }
 
-  const png = await renderHtml(addCjkFallback(html), opts);
+  const png = await renderHtml(wrapTables(addCjkFallback(html)), opts);
 
   if (opts.out) {
     if (opts.out === '-') {
